@@ -31,7 +31,7 @@ module Spree
       def compute_package(package)
         content_items = package.contents
         line_items_total = total(content_items)
-        unless line_items_total > preferrred_free_from
+        unless line_items_total > preferred_free_from
           handling_fee = preferred_handling_max > line_items_total ? preferred_handling_fee : 0
 
           total_weight = total_weight(content_items)
