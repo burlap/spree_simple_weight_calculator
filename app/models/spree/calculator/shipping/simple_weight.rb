@@ -6,6 +6,7 @@ module Spree
       preference :max_item_size, :decimal, default: 0
       preference :handling_fee, :decimal, default: 0
       preference :handling_max, :decimal, default: 0
+      preference :free_from, :decimal, default: 0
 
       def self.description
         Spree.t(:simple_weight)
@@ -30,14 +31,19 @@ module Spree
       def compute_package(package)
         content_items = package.contents
         line_items_total = total(content_items)
-        handling_fee = preferred_handling_max > line_items_total ? preferred_handling_fee : 0
+        unless line_items_total > preferrred_free_from
+          handling_fee = preferred_handling_max > line_items_total ? preferred_handling_fee : 0
 
-        total_weight = total_weight(content_items)
-        costs = costs_string_to_hash(clean_costs_string)
-        weight_class = costs.keys.select { |w| total_weight <= w }.min
-        shipping_costs = costs[weight_class]
+          total_weight = total_weight(content_items)
+          costs = costs_string_to_hash(clean_costs_string)
+          weight_class = costs.keys.select { |w| total_weight <= w }.min
+          shipping_costs = costs[weight_class]
 
-        shipping_costs ? shipping_costs + handling_fee : 0
+          shipping_costs ? shipping_costs + handling_fee : 0
+        else
+          return 0
+        end
+
       end
 
       private
