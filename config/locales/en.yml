@@ -4,6 +4,6 @@ en:
     costs_string: Prices (max weight:costs, one per line)
     max_item_size: Max size of one item (longest side)
     handling_fee: Handling fee
-    handling_max: "Amount, over which handling fee won\'t be applied"
+    handling_max: "Amount, over which handling fee will not be applied"
     default_weight: "Default weight, applied to products without weight"
     free_from: Free shipmnen from
